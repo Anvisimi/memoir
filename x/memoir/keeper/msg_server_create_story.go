@@ -12,9 +12,10 @@ func (k msgServer) CreateStory(goCtx context.Context, msg *types.MsgCreateStory)
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	var story = types.Story{
+		Id:      0,
 		Title:   msg.Title,
 		Content: msg.Content,
-		Author:  msg.Creator, // Note: msg has Creator, but we store it as Author
+		Author:  msg.Creator,
 	}
 
 	id := k.AppendStory(
