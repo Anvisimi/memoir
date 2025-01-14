@@ -1,0 +1,15 @@
+syntax = "proto3";
+package memoir.memoir;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "memoir/x/memoir/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "memoir/x/memoir/Params";
+  option (gogoproto.equal) = true;
+
+  
+}

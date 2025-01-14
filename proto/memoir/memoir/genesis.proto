@@ -1,0 +1,17 @@
+syntax = "proto3";
+package memoir.memoir;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "memoir/memoir/params.proto";
+
+option go_package = "memoir/x/memoir/types";
+
+// GenesisState defines the memoir module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
