@@ -1,0 +1,12 @@
+syntax = "proto3";
+package memoir.memoir;
+
+option go_package = "memoir/x/memoir/types";
+
+message Story {
+  
+  string title = 1; 
+  string content = 2; 
+  string author = 3; 
+  uint64 id = 4; 
+}

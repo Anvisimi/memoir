@@ -8,7 +8,6 @@ package memoir
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -20,7 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName = "/memoir.memoir.Query/Params"
+	Query_Params_FullMethodName    = "/memoir.memoir.Query/Params"
+	Query_ShowStory_FullMethodName = "/memoir.memoir.Query/ShowStory"
+	Query_ListStory_FullMethodName = "/memoir.memoir.Query/ListStory"
 )
 
 // QueryClient is the client API for Query service.
@@ -29,6 +30,10 @@ const (
 type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
+	// Queries a list of ShowStory items.
+	ShowStory(ctx context.Context, in *QueryShowStoryRequest, opts ...grpc.CallOption) (*QueryShowStoryResponse, error)
+	// Queries a list of ListStory items.
+	ListStory(ctx context.Context, in *QueryListStoryRequest, opts ...grpc.CallOption) (*QueryListStoryResponse, error)
 }
 
 type queryClient struct {
@@ -48,12 +53,34 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 	return out, nil
 }
 
+func (c *queryClient) ShowStory(ctx context.Context, in *QueryShowStoryRequest, opts ...grpc.CallOption) (*QueryShowStoryResponse, error) {
+	out := new(QueryShowStoryResponse)
+	err := c.cc.Invoke(ctx, Query_ShowStory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ListStory(ctx context.Context, in *QueryListStoryRequest, opts ...grpc.CallOption) (*QueryListStoryResponse, error) {
+	out := new(QueryListStoryResponse)
+	err := c.cc.Invoke(ctx, Query_ListStory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
+	// Queries a list of ShowStory items.
+	ShowStory(context.Context, *QueryShowStoryRequest) (*QueryShowStoryResponse, error)
+	// Queries a list of ListStory items.
+	ListStory(context.Context, *QueryListStoryRequest) (*QueryListStoryResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -63,6 +90,12 @@ type UnimplementedQueryServer struct {
 
 func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
+}
+func (UnimplementedQueryServer) ShowStory(context.Context, *QueryShowStoryRequest) (*QueryShowStoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShowStory not implemented")
+}
+func (UnimplementedQueryServer) ListStory(context.Context, *QueryListStoryRequest) (*QueryListStoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListStory not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -95,6 +128,42 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ShowStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryShowStoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ShowStory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ShowStory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ShowStory(ctx, req.(*QueryShowStoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ListStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListStoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListStory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListStory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListStory(ctx, req.(*QueryListStoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -105,6 +174,14 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Params",
 			Handler:    _Query_Params_Handler,
+		},
+		{
+			MethodName: "ShowStory",
+			Handler:    _Query_ShowStory_Handler,
+		},
+		{
+			MethodName: "ListStory",
+			Handler:    _Query_ListStory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -8,7 +8,6 @@ package memoir
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -21,6 +20,9 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Msg_UpdateParams_FullMethodName = "/memoir.memoir.Msg/UpdateParams"
+	Msg_CreateStory_FullMethodName  = "/memoir.memoir.Msg/CreateStory"
+	Msg_UpdateStory_FullMethodName  = "/memoir.memoir.Msg/UpdateStory"
+	Msg_DeleteStory_FullMethodName  = "/memoir.memoir.Msg/DeleteStory"
 )
 
 // MsgClient is the client API for Msg service.
@@ -30,6 +32,9 @@ type MsgClient interface {
 	// UpdateParams defines a (governance) operation for updating the module
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
+	CreateStory(ctx context.Context, in *MsgCreateStory, opts ...grpc.CallOption) (*MsgCreateStoryResponse, error)
+	UpdateStory(ctx context.Context, in *MsgUpdateStory, opts ...grpc.CallOption) (*MsgUpdateStoryResponse, error)
+	DeleteStory(ctx context.Context, in *MsgDeleteStory, opts ...grpc.CallOption) (*MsgDeleteStoryResponse, error)
 }
 
 type msgClient struct {
@@ -49,6 +54,33 @@ func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts 
 	return out, nil
 }
 
+func (c *msgClient) CreateStory(ctx context.Context, in *MsgCreateStory, opts ...grpc.CallOption) (*MsgCreateStoryResponse, error) {
+	out := new(MsgCreateStoryResponse)
+	err := c.cc.Invoke(ctx, Msg_CreateStory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateStory(ctx context.Context, in *MsgUpdateStory, opts ...grpc.CallOption) (*MsgUpdateStoryResponse, error) {
+	out := new(MsgUpdateStoryResponse)
+	err := c.cc.Invoke(ctx, Msg_UpdateStory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteStory(ctx context.Context, in *MsgDeleteStory, opts ...grpc.CallOption) (*MsgDeleteStoryResponse, error) {
+	out := new(MsgDeleteStoryResponse)
+	err := c.cc.Invoke(ctx, Msg_DeleteStory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -56,6 +88,9 @@ type MsgServer interface {
 	// UpdateParams defines a (governance) operation for updating the module
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
+	CreateStory(context.Context, *MsgCreateStory) (*MsgCreateStoryResponse, error)
+	UpdateStory(context.Context, *MsgUpdateStory) (*MsgUpdateStoryResponse, error)
+	DeleteStory(context.Context, *MsgDeleteStory) (*MsgDeleteStoryResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -65,6 +100,15 @@ type UnimplementedMsgServer struct {
 
 func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateParams not implemented")
+}
+func (UnimplementedMsgServer) CreateStory(context.Context, *MsgCreateStory) (*MsgCreateStoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateStory not implemented")
+}
+func (UnimplementedMsgServer) UpdateStory(context.Context, *MsgUpdateStory) (*MsgUpdateStoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateStory not implemented")
+}
+func (UnimplementedMsgServer) DeleteStory(context.Context, *MsgDeleteStory) (*MsgDeleteStoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteStory not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -97,6 +141,60 @@ func _Msg_UpdateParams_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_CreateStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateStory)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateStory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_CreateStory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateStory(ctx, req.(*MsgCreateStory))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateStory)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateStory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_UpdateStory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateStory(ctx, req.(*MsgUpdateStory))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteStory)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteStory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_DeleteStory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteStory(ctx, req.(*MsgDeleteStory))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -107,6 +205,18 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateParams",
 			Handler:    _Msg_UpdateParams_Handler,
+		},
+		{
+			MethodName: "CreateStory",
+			Handler:    _Msg_CreateStory_Handler,
+		},
+		{
+			MethodName: "UpdateStory",
+			Handler:    _Msg_UpdateStory_Handler,
+		},
+		{
+			MethodName: "DeleteStory",
+			Handler:    _Msg_DeleteStory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

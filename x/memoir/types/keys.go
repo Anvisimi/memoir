@@ -9,6 +9,12 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_memoir"
+
+	// StoryKey is used to uniquely identify stories
+	StoryKey = "Story/value/"
+
+	// StoryCountKey tracks the latest story ID
+	StoryCountKey = "Story/count/"
 )
 
 var (

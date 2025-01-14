@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package memoir.memoir;
 
 import "amino/amino.proto";
@@ -12,29 +13,58 @@ option go_package = "memoir/x/memoir/types";
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
-
+  
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc CreateStory  (MsgCreateStory ) returns (MsgCreateStoryResponse );
+  rpc UpdateStory  (MsgUpdateStory ) returns (MsgUpdateStoryResponse );
+  rpc DeleteStory  (MsgDeleteStory ) returns (MsgDeleteStoryResponse );
 }
-
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
-  option (cosmos.msg.v1.signer) = "authority";
-  option (amino.name) = "memoir/x/memoir/MsgUpdateParams";
-
+  option (cosmos.msg.v1.signer) =                       "authority";
+  option           (amino.name) = "memoir/x/memoir/MsgUpdateParams";
+  
   // authority is the address that controls the module (defaults to x/gov unless overwritten).
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // params defines the module parameters to update.
-  //
+  
   // NOTE: All parameters must be supplied.
-  Params params = 2 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 2 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
 
 // MsgUpdateParamsResponse defines the response structure for executing a
 // MsgUpdateParams message.
 message MsgUpdateParamsResponse {}
+
+message MsgCreateStory {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string title   = 2;
+  string content = 3;
+}
+
+message MsgCreateStoryResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateStory {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string title   = 2;
+  string content = 3;
+  uint64 id      = 4;
+}
+
+message MsgUpdateStoryResponse {}
+
+message MsgDeleteStory {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteStoryResponse {}
+
