@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-```markdown:README.md
 # Memoir Chain
 
 A blockchain for storing and managing stories with CRUD (Create, Read, Update, Delete) operations.
@@ -121,13 +108,4 @@ This demonstrates a valid consensus-breaking change as it modifies:
 - Block processing rules
 
 These changes would require a coordinated upgrade in a production environment.
-```
 
-
-This README provides:
-1. Clear explanation of consensus breaking
-2. Step-by-step validation instructions
-3. Observable differences between versions
-4. Key validation points for assessors
-
-Would you like me to add any additional details?
