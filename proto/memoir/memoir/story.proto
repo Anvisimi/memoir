@@ -9,4 +9,6 @@ message Story {
   string content = 2; 
   string author = 3; 
   uint64 id = 4; 
+  string category = 5; 
+  uint64 rating = 6; 
 }

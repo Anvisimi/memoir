@@ -15,6 +15,8 @@ const (
 
 	// StoryCountKey tracks the latest story ID
 	StoryCountKey = "Story/count/"
+
+	LastStoryIDKey = "LastStoryID-value-"
 )
 
 var (

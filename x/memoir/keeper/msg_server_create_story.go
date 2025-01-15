@@ -11,19 +11,23 @@ import (
 func (k msgServer) CreateStory(goCtx context.Context, msg *types.MsgCreateStory) (*types.MsgCreateStoryResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// New ID generation logic that breaks consensus
+	lastID := k.GetLastStoryID(ctx)
+	newID := lastID + 2 // Breaking change: IDs now increment by 2
+
 	var story = types.Story{
-		Id:      0,
-		Title:   msg.Title,
-		Content: msg.Content,
-		Author:  msg.Creator,
+		Id:       newID,
+		Title:    msg.Title,
+		Content:  msg.Content,
+		Author:   msg.Creator,
+		Category: "default", // Required field
+		Rating:   100,       // Required field
 	}
 
-	id := k.AppendStory(
-		ctx,
-		story,
-	)
+	k.SetStory(ctx, story)
+	k.SetLastStoryID(ctx, newID)
 
 	return &types.MsgCreateStoryResponse{
-		Id: id,
+		Id: newID,
 	}, nil
 }

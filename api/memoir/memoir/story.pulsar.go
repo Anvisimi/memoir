@@ -13,11 +13,13 @@ import (
 )
 
 var (
-	md_Story         protoreflect.MessageDescriptor
-	fd_Story_title   protoreflect.FieldDescriptor
-	fd_Story_content protoreflect.FieldDescriptor
-	fd_Story_author  protoreflect.FieldDescriptor
-	fd_Story_id      protoreflect.FieldDescriptor
+	md_Story          protoreflect.MessageDescriptor
+	fd_Story_title    protoreflect.FieldDescriptor
+	fd_Story_content  protoreflect.FieldDescriptor
+	fd_Story_author   protoreflect.FieldDescriptor
+	fd_Story_id       protoreflect.FieldDescriptor
+	fd_Story_category protoreflect.FieldDescriptor
+	fd_Story_rating   protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -27,6 +29,8 @@ func init() {
 	fd_Story_content = md_Story.Fields().ByName("content")
 	fd_Story_author = md_Story.Fields().ByName("author")
 	fd_Story_id = md_Story.Fields().ByName("id")
+	fd_Story_category = md_Story.Fields().ByName("category")
+	fd_Story_rating = md_Story.Fields().ByName("rating")
 }
 
 var _ protoreflect.Message = (*fastReflection_Story)(nil)
@@ -118,6 +122,18 @@ func (x *fastReflection_Story) Range(f func(protoreflect.FieldDescriptor, protor
 			return
 		}
 	}
+	if x.Category != "" {
+		value := protoreflect.ValueOfString(x.Category)
+		if !f(fd_Story_category, value) {
+			return
+		}
+	}
+	if x.Rating != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Rating)
+		if !f(fd_Story_rating, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -141,6 +157,10 @@ func (x *fastReflection_Story) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.Author != ""
 	case "memoir.memoir.Story.id":
 		return x.Id != uint64(0)
+	case "memoir.memoir.Story.category":
+		return x.Category != ""
+	case "memoir.memoir.Story.rating":
+		return x.Rating != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: memoir.memoir.Story"))
@@ -165,6 +185,10 @@ func (x *fastReflection_Story) Clear(fd protoreflect.FieldDescriptor) {
 		x.Author = ""
 	case "memoir.memoir.Story.id":
 		x.Id = uint64(0)
+	case "memoir.memoir.Story.category":
+		x.Category = ""
+	case "memoir.memoir.Story.rating":
+		x.Rating = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: memoir.memoir.Story"))
@@ -192,6 +216,12 @@ func (x *fastReflection_Story) Get(descriptor protoreflect.FieldDescriptor) prot
 		return protoreflect.ValueOfString(value)
 	case "memoir.memoir.Story.id":
 		value := x.Id
+		return protoreflect.ValueOfUint64(value)
+	case "memoir.memoir.Story.category":
+		value := x.Category
+		return protoreflect.ValueOfString(value)
+	case "memoir.memoir.Story.rating":
+		value := x.Rating
 		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
@@ -221,6 +251,10 @@ func (x *fastReflection_Story) Set(fd protoreflect.FieldDescriptor, value protor
 		x.Author = value.Interface().(string)
 	case "memoir.memoir.Story.id":
 		x.Id = value.Uint()
+	case "memoir.memoir.Story.category":
+		x.Category = value.Interface().(string)
+	case "memoir.memoir.Story.rating":
+		x.Rating = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: memoir.memoir.Story"))
@@ -249,6 +283,10 @@ func (x *fastReflection_Story) Mutable(fd protoreflect.FieldDescriptor) protoref
 		panic(fmt.Errorf("field author of message memoir.memoir.Story is not mutable"))
 	case "memoir.memoir.Story.id":
 		panic(fmt.Errorf("field id of message memoir.memoir.Story is not mutable"))
+	case "memoir.memoir.Story.category":
+		panic(fmt.Errorf("field category of message memoir.memoir.Story is not mutable"))
+	case "memoir.memoir.Story.rating":
+		panic(fmt.Errorf("field rating of message memoir.memoir.Story is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: memoir.memoir.Story"))
@@ -269,6 +307,10 @@ func (x *fastReflection_Story) NewField(fd protoreflect.FieldDescriptor) protore
 	case "memoir.memoir.Story.author":
 		return protoreflect.ValueOfString("")
 	case "memoir.memoir.Story.id":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "memoir.memoir.Story.category":
+		return protoreflect.ValueOfString("")
+	case "memoir.memoir.Story.rating":
 		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
@@ -354,6 +396,13 @@ func (x *fastReflection_Story) ProtoMethods() *protoiface.Methods {
 		if x.Id != 0 {
 			n += 1 + runtime.Sov(uint64(x.Id))
 		}
+		l = len(x.Category)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.Rating != 0 {
+			n += 1 + runtime.Sov(uint64(x.Rating))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -382,6 +431,18 @@ func (x *fastReflection_Story) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Rating != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Rating))
+			i--
+			dAtA[i] = 0x30
+		}
+		if len(x.Category) > 0 {
+			i -= len(x.Category)
+			copy(dAtA[i:], x.Category)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Category)))
+			i--
+			dAtA[i] = 0x2a
 		}
 		if x.Id != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.Id))
@@ -573,6 +634,57 @@ func (x *fastReflection_Story) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
+			case 5:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Category = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 6:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Rating", wireType)
+				}
+				x.Rating = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Rating |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -626,10 +738,12 @@ type Story struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Title   string `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
-	Content string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
-	Author  string `protobuf:"bytes,3,opt,name=author,proto3" json:"author,omitempty"`
-	Id      uint64 `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	Title    string `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	Content  string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
+	Author   string `protobuf:"bytes,3,opt,name=author,proto3" json:"author,omitempty"`
+	Id       uint64 `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	Category string `protobuf:"bytes,5,opt,name=category,proto3" json:"category,omitempty"`
+	Rating   uint64 `protobuf:"varint,6,opt,name=rating,proto3" json:"rating,omitempty"`
 }
 
 func (x *Story) Reset() {
@@ -680,28 +794,45 @@ func (x *Story) GetId() uint64 {
 	return 0
 }
 
+func (x *Story) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *Story) GetRating() uint64 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
 var File_memoir_memoir_story_proto protoreflect.FileDescriptor
 
 var file_memoir_memoir_story_proto_rawDesc = []byte{
 	0x0a, 0x19, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2f, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2f,
 	0x73, 0x74, 0x6f, 0x72, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0d, 0x6d, 0x65, 0x6d,
-	0x6f, 0x69, 0x72, 0x2e, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x22, 0x5f, 0x0a, 0x05, 0x53, 0x74,
-	0x6f, 0x72, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e,
-	0x74, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74,
-	0x65, 0x6e, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69,
-	0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x42, 0x8e, 0x01, 0x0a, 0x11,
-	0x63, 0x6f, 0x6d, 0x2e, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2e, 0x6d, 0x65, 0x6d, 0x6f, 0x69,
-	0x72, 0x42, 0x0a, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x18, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6d, 0x65, 0x6d, 0x6f,
-	0x69, 0x72, 0x2f, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0xa2, 0x02, 0x03, 0x4d, 0x4d, 0x58, 0xaa,
-	0x02, 0x0d, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2e, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0xca,
-	0x02, 0x0d, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x5c, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0xe2,
-	0x02, 0x19, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x5c, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x5c,
-	0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0e, 0x4d, 0x65,
-	0x6d, 0x6f, 0x69, 0x72, 0x3a, 0x3a, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x69, 0x72, 0x2e, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x22, 0x93, 0x01, 0x0a, 0x05, 0x53,
+	0x74, 0x6f, 0x72, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1a, 0x0a, 0x08,
+	0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08,
+	0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x61, 0x74, 0x69,
+	0x6e, 0x67, 0x18, 0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67,
+	0x42, 0x8e, 0x01, 0x0a, 0x11, 0x63, 0x6f, 0x6d, 0x2e, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2e,
+	0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x42, 0x0a, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x50, 0x72, 0x6f,
+	0x74, 0x6f, 0x50, 0x01, 0x5a, 0x18, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2f, 0x61, 0x70, 0x69,
+	0x2f, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2f, 0x6d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0xa2, 0x02,
+	0x03, 0x4d, 0x4d, 0x58, 0xaa, 0x02, 0x0d, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x2e, 0x4d, 0x65,
+	0x6d, 0x6f, 0x69, 0x72, 0xca, 0x02, 0x0d, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x5c, 0x4d, 0x65,
+	0x6d, 0x6f, 0x69, 0x72, 0xe2, 0x02, 0x19, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x5c, 0x4d, 0x65,
+	0x6d, 0x6f, 0x69, 0x72, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
+	0xea, 0x02, 0x0e, 0x4d, 0x65, 0x6d, 0x6f, 0x69, 0x72, 0x3a, 0x3a, 0x4d, 0x65, 0x6d, 0x6f, 0x69,
+	0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
