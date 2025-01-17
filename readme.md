@@ -36,7 +36,7 @@ These changes break consensus because:
 ### 1. Run Original Version
 ```bash
 # Clone repository
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/Anvisimi/memoir)
 cd memoir
 
 # Switch to develop branch
