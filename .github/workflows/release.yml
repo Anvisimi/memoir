@@ -37,7 +37,7 @@ jobs:
                      -t darwin:amd64 \
                      -t darwin:arm64 \
                      -y \
-                     --ldflags "-buildvcs=false"
+                     --go-build-args "-buildvcs=false"
         env:
           DO_NOT_TRACK: 1
 
