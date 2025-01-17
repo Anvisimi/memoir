@@ -34,9 +34,9 @@ These changes break consensus because:
 ## How to Validate
 
 ### 1. Run Original Version
-```bash
+bash
 # Clone repository
-git clone [<repository-url>](https://github.com/Anvisimi/memoir)
+git clone https://github.com/Anvisimi/memoir
 cd memoir
 
 # Switch to develop branch
@@ -57,10 +57,10 @@ memoird tx memoir create-story "Original Story" "Content" \
 
 # Query stories - note the ID sequence and structure
 memoird q memoir list-story --node tcp://localhost:26657
-```
+
 
 ### 2. Run Modified Version
-```bash
+bash
 # Switch to consensus-breaking branch
 git checkout feature/consensus-breaking-change
 
@@ -79,18 +79,17 @@ memoird tx memoir create-story "New Story" "Content" \
 
 # Query stories - note different ID sequence and new fields
 memoird q memoir list-story --node tcp://localhost:26657
-```
 
 ### Observable Differences
-1. **Story Structure**:
+1. Story Structure:
    - Original: Basic story with title, content, author
    - Modified: Additional required fields (category, rating)
 
-2. **ID Generation**:
+2. ID Generation:
    - Original: Sequential (0, 1, 2...)
    - Modified: Increments by 2 (0, 2, 4...)
 
-3. **State Compatibility**:
+3. State Compatibility:
    - Old stories become invalid in new version
    - New stories can't be processed by old version
 
