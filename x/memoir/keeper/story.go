@@ -25,8 +25,8 @@ func (k Keeper) AppendStory(ctx sdk.Context, story types.Story) uint64 {
 // GetStoryCount get the total number of story
 func (k Keeper) GetStoryCount(ctx sdk.Context) uint64 {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.StoryCountKey)
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StoryCountKey))
+	byteKey := []byte("count")
 	bz := store.Get(byteKey)
 	if bz == nil {
 		return 0
@@ -44,8 +44,8 @@ func GetStoryIDBytes(id uint64) []byte {
 // SetStoryCount set the total number of story
 func (k Keeper) SetStoryCount(ctx sdk.Context, count uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.StoryCountKey)
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StoryCountKey))
+	byteKey := []byte("count")
 	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, count)
 	store.Set(byteKey, bz)

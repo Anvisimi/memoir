@@ -16,9 +16,10 @@ func (k Keeper) ShowStory(goCtx context.Context, req *types.QueryShowStoryReques
 	}
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
+	story, found := k.GetStory(ctx, req.Id)
+	if !found {
+		return nil, status.Error(codes.NotFound, "story not found")
+	}
 
-	// TODO: Process the query
-	_ = ctx
-
-	return &types.QueryShowStoryResponse{}, nil
+	return &types.QueryShowStoryResponse{Story: &story}, nil
 }
