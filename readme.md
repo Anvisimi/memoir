@@ -4,10 +4,29 @@ A blockchain for storing and managing stories with CRUD (Create, Read, Update, D
 
 ## Overview
 The chain allows users to:
-- Create stories with title and content
-- Read stories (list all or show specific)
-- Update existing stories
-- Delete stories
+- **Create stories with title and content**
+memoird tx memoir create-story "Original Story" "Content" \
+    --from bob \
+    --chain-id memoir \
+    --gas 300000 \
+    --fees 3000stake \
+    --keyring-backend test \
+    --node tcp://localhost:26657 \
+    -y
+- **Read stories (list all or show specific)**
+memoird q memoir list-story --node tcp://localhost:26657
+memoird q memoir show-story <id> --node tcp://localhost:26657
+- **Update existing stories**
+  memoird tx memoir update-story "Updated Story 1" "Updated Horror Story" <id> --from bob --chain-id memoir --gas 300000 --fees 3000stake --keyring-backend test --node tcp://localhost:26657 -y
+- **Delete stories**
+memoird tx memoir delete-story <id> \
+    --from bob \
+    --chain-id memoir \
+    --gas 300000 \
+    --fees 3000stake \
+    --keyring-backend test \
+    --node tcp://localhost:26657 \
+    -y
 
 ## Consensus Breaking Changes Demonstration
 
@@ -25,7 +44,7 @@ In the `feature/consensus-breaking-change` branch, we introduced:
 1. New required fields in Story structure (`category` and `rating`)
 2. Modified ID generation logic (incrementing by 2 instead of 1)
 
-These changes break consensus because:
+**These changes break consensus because:**
 - Old nodes can't validate stories with new required fields
 - New nodes reject old stories missing required fields
 - Different ID sequences cause state divergence
